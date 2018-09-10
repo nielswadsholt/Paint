@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Paint</string>
+    <string name="clear_canvas">CLEAR CANVAS</string>
+</resources>
