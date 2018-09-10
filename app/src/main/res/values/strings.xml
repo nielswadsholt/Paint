@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Paint</string>
     <string name="clear_canvas">CLEAR CANVAS</string>
+    <string name="canvas_content_desc">Free-hand drawing on canvas</string>
 </resources>
