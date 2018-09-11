@@ -15,7 +15,7 @@ public class CanvasView extends View {
     private Path path;
     private Paint paint;
     private float X, Y;
-    private static final float TOLERANCE = 5;
+    private static final float TOLERANCE = 1;
     Context context;
 
     public CanvasView(Context context, @Nullable AttributeSet attrs) {
@@ -28,6 +28,7 @@ public class CanvasView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeWidth(12f);
+        paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
@@ -37,13 +38,13 @@ public class CanvasView extends View {
         canvas.drawPath(path, paint);
     }
 
-    private  void startTouch(float x, float y) {
+    private void beginStroke(float x, float y) {
         path.moveTo(x, y);
         X = x;
         Y = y;
     }
 
-    private void moveTouch(float x, float y) {
+    private void moveStroke(float x, float y) {
         float dx = Math.abs(x - X);
         float dy = Math.abs(y - Y);
 
@@ -54,7 +55,7 @@ public class CanvasView extends View {
         }
     }
 
-    private void upTouch() {
+    private void endStroke() {
         path.lineTo(X, Y);
     }
 
@@ -70,19 +71,18 @@ public class CanvasView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                startTouch(x, y);
-                invalidate();
+                beginStroke(x, y);
                 break;
             case MotionEvent.ACTION_MOVE:
-                moveTouch(x, y);
-                invalidate();
+                moveStroke(x, y);
                 break;
             case MotionEvent.ACTION_UP:
-                upTouch();
+                endStroke();
                 performClick();
-                invalidate();
                 break;
         }
+
+        invalidate();
 
         return  true;
     }
